@@ -15,9 +15,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.itis.android.firebasesimple.R;
 import com.itis.android.firebasesimple.utils.SoftKeyboard;
+
+import java.util.concurrent.TimeUnit;
 
 public class PasswordResetActivity extends AppCompatActivity {
 
@@ -79,7 +84,34 @@ public class PasswordResetActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         });
 
-        btnSendSMS.setOnClickListener(v -> {});
+        btnSendSMS.setOnClickListener(v -> {
+            String phNumber = etPhone.getText().toString();
+            if (TextUtils.isEmpty(phNumber)) {
+                tiPhone.setError(getString(R.string.error_phone));
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+            SoftKeyboard.hide(container);
+
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(phNumber, 10,
+                    TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                        @Override
+                        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                        }
+
+                        @Override
+                        public void onVerificationFailed(FirebaseException e) {
+
+                        }
+
+                        @Override
+                        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                            Snackbar.make(container, "Verification code has been sent.", Snackbar.LENGTH_SHORT);
+                        }
+                    });
+            progressBar.setVisibility(View.GONE);
+        });
     }
 
     private void initTextListeners() {
