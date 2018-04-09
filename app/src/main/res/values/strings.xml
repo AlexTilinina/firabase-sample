@@ -22,6 +22,7 @@
     <string name="btn_link_to_register">Not a member? Get registered in Firebase now!</string>
     <string name="btn_link_to_login">Already registered. Login Me!</string>
     <string name="error_email">Enter email address!</string>
+    <string name="error_phone">Enter phone number!</string>
     <string name="error_pass">Enter password!</string>
     <string name="error_pass_length">Password too short, enter minimum 6 characters!</string>
     <string name="error_signin">Sign In Error</string>
